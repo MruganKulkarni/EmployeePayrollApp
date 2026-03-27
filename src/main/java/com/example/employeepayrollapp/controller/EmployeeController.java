@@ -2,6 +2,7 @@ package com.example.employeepayrollapp.controller;
 
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> create(@RequestBody EmployeeDTO dto) {
+    public ResponseEntity<EmployeeDTO> create(@Valid @RequestBody EmployeeDTO dto) {
         return ResponseEntity.ok(service.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> update(@PathVariable int id, @RequestBody EmployeeDTO dto) {
+    public ResponseEntity<EmployeeDTO> update(@PathVariable int id, @Valid @RequestBody EmployeeDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
