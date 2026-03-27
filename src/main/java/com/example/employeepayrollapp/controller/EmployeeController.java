@@ -1,41 +1,45 @@
 package com.example.employeepayrollapp.controller;
 
-import com.example.employeepayrollapp.model.Employee;
+import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/employeepayrollservice")
+@RequestMapping("/employees")
 public class EmployeeController {
-    @Autowired
-    private EmployeeService service;
 
-    @GetMapping("/")
-    public List<Employee> getAll() {
-        return service.getAll();
+    private final EmployeeService service;
+
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
     }
 
-    @GetMapping("/get/{id}")
-    public Employee getById(@PathVariable int id) {
-        return service.getById(id).orElse(null);
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    @PostMapping("/create")
-    public Employee create(@RequestBody Employee emp) {
-        return service.create(emp);
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> getById(@PathVariable int id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
-    @PutMapping("/update")
-    public Employee update(@RequestBody Employee emp) {
-        return service.update(emp);
+    @PostMapping
+    public ResponseEntity<EmployeeDTO> create(@RequestBody EmployeeDTO dto) {
+        return ResponseEntity.ok(service.create(dto));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable int id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> update(@PathVariable int id, @RequestBody EmployeeDTO dto) {
+        return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
         service.delete(id);
-        return "Deleted Successfully";
+        return ResponseEntity.ok("Employee deleted successfully");
     }
 }
