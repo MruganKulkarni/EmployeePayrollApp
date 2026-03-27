@@ -3,12 +3,14 @@ package com.example.employeepayrollapp.service;
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.repository.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class EmployeeService {
 
     private final EmployeeRepository repo;
