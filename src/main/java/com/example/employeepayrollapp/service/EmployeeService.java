@@ -1,6 +1,7 @@
 package com.example.employeepayrollapp.service;
 
 import com.example.employeepayrollapp.dto.EmployeeDTO;
+import com.example.employeepayrollapp.exception.EmployeePayrollException;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class EmployeeService {
 
     public EmployeeDTO getById(int id) {
         Employee emp = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeePayrollException("Employee not found with id: " + id));
 
         return convertToDTO(emp);
     }
@@ -40,7 +41,7 @@ public class EmployeeService {
 
     public EmployeeDTO update(int id, EmployeeDTO dto) {
         Employee existing = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeePayrollException("Employee not found with id: " + id));
 
         existing.setName(dto.getName());
         existing.setSalary(dto.getSalary());
@@ -50,7 +51,7 @@ public class EmployeeService {
 
     public void delete(int id) {
         if (!repo.existsById(id)) {
-            throw new RuntimeException("Employee not found with id: " + id);
+            throw new EmployeePayrollException("Employee not found with id: " + id);
         }
         repo.deleteById(id);
     }
